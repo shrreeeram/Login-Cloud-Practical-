@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+      color: #e2e8f0;
+    }
+    .card {
+      width: min(420px, 92vw);
+      padding: 32px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 14px 45px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    h1 {
+      margin: 0 0 12px 0;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0 0 18px 0;
+      color: #cbd5e1;
+    }
+    label {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #0b1220;
+      color: #e2e8f0;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border 120ms ease, box-shadow 120ms ease;
+    }
+    input:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    .field {
+      margin-bottom: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(120deg, #0ea5e9, #22d3ee);
+      color: #0b1220;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(34, 211, 238, 0.2);
+    }
+    .helper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      color: #cbd5e1;
+    }
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Welcome back</h1>
+    <p>Sign in to continue to your dashboard.</p>
+    <form id="login-form" action="#" method="post" onsubmit="handleSubmit(event)">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" minlength="6" required>
+      </div>
+      <button type="submit">Sign in</button>
+      <div class="helper">
+        <label><input type="checkbox" id="remember" name="remember"> Remember me</label>
+        <a href="#">Forgot password?</a>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const form = event.target;
+      const data = {
+        email: form.email.value.trim(),
+        password: form.password.value,
+        remember: form.remember.checked
+      };
+      alert("Demo only. Submitted: " + JSON.stringify(data, null, 2));
+      form.reset();
+      form.email.focus();
+    }
+  </script>
+</body>
+</html>
