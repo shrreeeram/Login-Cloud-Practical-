@@ -5,6 +5,7 @@ pipeline {
     REGISTRY = credentials('docker-registry')
     IMAGE_NAME = "cloud-login-demo"
     IMAGE_TAG = "latest"
+    REGISTRY_USR = "${REGISTRY_USR ?: REGISTRY_USR}"  // safe Groovy interpolation
   }
 
   stages {
@@ -31,13 +32,16 @@ pipeline {
     stage('Deploy') {
       steps {
         sh """
-          if [ -n "$REGISTRY_USR" ]; then
-            echo "$REGISTRY_PSW" | docker login -u "$REGISTRY_USR" --password-stdin
-            docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${REGISTRY_USR}/${IMAGE_NAME}:${IMAGE_TAG}
-            docker push ${REGISTRY_USR}/${IMAGE_NAME}:${IMAGE_TAG}
+          if [ -n "\$REGISTRY_USR" ]; then
+            echo "\$REGISTRY_PSW" | docker login -u "\$REGISTRY_USR" --password-stdin
+            docker tag ${IMAGE_NAME}:${IMAGE_TAG} \${IMAGE_NAME}:${IMAGE_TAG}
+            docker tag ${IMAGE_NAME}:${IMAGE_TAG} \${IMAGE_NAME}:${IMAGE_TAG}
+            docker tag ${IMAGE_NAME}:${IMAGE_TAG} \${REGISTRY_USR}/${IMAGE_NAME}:${IMAGE_TAG}
+            docker push \${REGISTRY_USR}/${IMAGE_NAME}:${IMAGE_TAG}
           fi
+
           docker stop cloud-login || true
-          docker run -d -p 5000:5000 --name cloud-login --rm ${REGISTRY_USR:+$REGISTRY_USR/}${IMAGE_NAME}:${IMAGE_TAG}
+          docker run -d -p 5000:5000 --name cloud-login --rm \${REGISTRY_USR}/\${IMAGE_NAME}:\${IMAGE_TAG}
         """
       }
     }
